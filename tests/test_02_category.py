@@ -59,7 +59,7 @@ class Test02CategoryAPI:
         assert data['count'] == 2, \
             'Проверьте, что при GET запросе `/api/v1/categories/` возвращаете данные с пагинацией. ' \
             'Значение параметра `count` не правильное'
-        assert type(data['results']) == list, \
+        assert isinstance(data['results'], list), \
             'Проверьте, что при GET запросе `/api/v1/categories/` возвращаете данные с пагинацией. ' \
             'Тип параметра `results` должен быть список'
         assert len(data['results']) == 2, \
@@ -100,7 +100,8 @@ class Test02CategoryAPI:
         assert response.status_code == 403, \
             f'Проверьте, что при POST запросе `/api/v1/categories/` ' \
             f'с токеном авторизации {user_name} возвращается статус 403'
-        response = client_user.delete(f'/api/v1/categories/{categories[0]["slug"]}/')
+        response = client_user.delete(
+            f'/api/v1/categories/{categories[0]["slug"]}/')
         assert response.status_code == 403, \
             f'Проверьте, что при DELETE запросе `/api/v1/categories/{{slug}}/` ' \
             f'с токеном авторизации {user_name} возвращается статус 403'
@@ -116,11 +117,11 @@ class Test02CategoryAPI:
         assert response.status_code == 401, \
             f'Проверьте, что при POST запросе `/api/v1/categories/` ' \
             f'без токена авторизации возвращается статус 401'
-        response = client.delete(f'/api/v1/categories/{categories[0]["slug"]}/')
+        response = client.delete(
+            f'/api/v1/categories/{categories[0]["slug"]}/')
         assert response.status_code == 401, \
             f'Проверьте, что при DELETE запросе `/api/v1/categories/{{slug}}/` ' \
             f'без токена авторизации возвращается статус 401'
         user, moderator = create_users_api(user_client)
         self.check_permissions(user, 'обычного пользователя', categories)
         self.check_permissions(moderator, 'модератора', categories)
-

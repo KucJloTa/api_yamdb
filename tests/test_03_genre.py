@@ -50,7 +50,7 @@ class Test03GenreAPI:
         assert data['count'] == 2, \
             'Проверьте, что при GET запросе `/api/v1/genres/` возвращаете данные с пагинацией. ' \
             'Значение параметра `count` не правильное'
-        assert type(data['results']) == list, \
+        assert isinstance(data['results'], list), \
             'Проверьте, что при GET запросе `/api/v1/genres/` возвращаете данные с пагинацией. ' \
             'Тип параметра `results` должен быть список'
         assert len(data['results']) == 2, \
@@ -114,4 +114,3 @@ class Test03GenreAPI:
         user, moderator = create_users_api(user_client)
         self.check_permissions(user, 'обычного пользователя', genres)
         self.check_permissions(moderator, 'модератора', genres)
-
